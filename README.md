@@ -1,4 +1,4 @@
-# Nginx configuration for running Drupal
+# DrupalInCloud Server configuration for running Drupal. Nginx, Apache, PHP, Mysql.
 
 ## Introduction
 
