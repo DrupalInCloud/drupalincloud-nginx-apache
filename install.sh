@@ -1,3 +1,5 @@
+# sync our configuration with /etc
+
 rsync -av ./apache2/ /etc/apache2/
 rsync -av ./mysql/ /etc/mysql/
 rsync -av ./nginx/ /etc/nginx/
