@@ -2,37 +2,19 @@
 
 ## Introduction
 
-   This is an example configuration from running Drupal using
-   [nginx](http://nginx.org). Which is a high-performance non-blocking
-   HTTP server.
+	This is an example configuration from running Drupal using 
+	[nginx](http://nginx.org),[apache],[php],[mysql],[memcached],[apc].
 
-   Nginx doesn't use a module like Apache does for PHP support. The
-   Apache module approach simplifies a lot of things because what you
-   have in reality is nothing less than a PHP engine running on top of
-   the HTTP server. 
-
-   Instead nginx uses [FastCGI](http://en.wikipedia.org/wiki/FastCGI)
-   to proxy all requests for PHP processing to a php fastcgi daemon that
-   is waiting for incoming requests and then handles the php file
-   being requested.
-
-   Although the fcgi approach is more cumbersome to set up it provides
-   a greater degree of control over which actions are permitted, hence
-   greater security.
-
-   This configuration started life as a fork of
-   [yhager's](github.com/yhager/nginx_drupal) configuration, tempered
-   by [omega8cc](http://github.com/omega8cc/nginx-for-drupal) and
-   [Brian Mercer](http://test.brianmercer.com/content/nginx-configuration-drupal)
-   (dead link) configurations. 
+	In this configuration Nginx is proxy all requests for PHP processing to
+	Apache that is waiting for incoming requests.
    
-   I've since then changed it substantially. Tried to remove as best
-   as I can the traces of bad habits promoted by Apache's
-   configuration logic. Namely the use of a `.htaccess` and what it
-   entails in terms or _reverse logic_ on the server
-   configuration. I've incorporated tidbits and advices gotten,
-   mostly, from the nginx mailing list and the
-   [nginx Wiki](http://wiki.nginx.org).
+	[Memcached] is usefull daemon for Drupal sites, which allow save Drupal cache in memory.
+
+	[apc] use for cache php.
+
+	This configuration started life as a fork of
+	[perusio's](https://github.com/perusio/drupal-with-nginx) configurations. 
+   
 
 ## I'm in a hurry just show me how to install it
 
@@ -41,13 +23,7 @@ I'll read up on all other stuff **later**.
 
 ## Layout
    
-   The configuration comes in **two** flavors:
-   
-   1. Drupal 6.
-
-   2. Drupal 7.
-    
-Furthermore there are **two** options for each configuration:
+Furthermore there are **two** options:
       
    1. A **non drush aware** option that uses `wget/curl` to run cron
       and updating the site using `update.php`, i.e., via a web
@@ -80,22 +56,6 @@ Furthermore there are **two** options for each configuration:
       wrapper** that comes with drush not to to the `drush.php`
       script. If using `drush.php` then add `php` in front of the
       `/path/to/drush.php`.
-
-## Branching
-
-The configuration has 3 main branches:
-
- 1. A [D7](https://github.com/perusio/drupal-with-nginx/tree/D7) branch
-    if you're running **Drupal 7** sites only on a given machine **use
-    this branch**.
-    
- 2. A [D6](https://github.com/perusio/drupal-with-nginx/tree/D6) branch
-    if you're running **Drupal 6** sites only on a given machine **use
-    this branch**.   
-    
- 3. A [master](https://github.com/perusio/drupal-with-nginx) branch if
-    you're running **both Drupal 6 and Drupal 7** sites on a given
-    machine **use this branch**.
 
 ## Escaped URIs
 
@@ -866,28 +826,6 @@ HTTPS servers.
    for Nginx to serve.
 
 
-## Acessing the php-fpm status and ping pages
-
-   You can get the
-   [status and a ping](http://forum.nginx.org/read.php?3,56426) pages
-   for the running instance of `php-fpm`. There's a
-   `php_fpm_status.conf` file with the configuration for both
-   features.
-   
-   + the **status page** at `/fpm-status`;
-     
-   + the **ping page** at `/ping`.
-
-   For obvious reasons these pages are acessed only from a given set
-   of IP addresses. In the suggested configuration only from
-   localhost and non-routable IPs of the 192.168.1.0 network.
-    
-   The allowed hosts are defined in a geo block in file
-   `php_fpm_status_allowed_hosts.conf`. You should edit the predefined
-   IP addresses to suit your setup. 
- 
-   To enable the status and ping pages uncomment the line in the
-   `example.com.conf` virtual host configuration file.
 
 ## Getting the latest Nginx packaged for Debian or Ubuntu
 
@@ -953,24 +891,7 @@ HTTPS servers.
    nginx. On Debian and any of its derivatives you can also test the
    configuration by invoking the init script as: `/etc/init.d/nginx
    testconfig`.
-
-## My other nginx configs on github
-
-   + [WordPress](https://github.com/perusio/wordpress-nginx "WordPress Nginx
-     config")
-
-   + [Chive](https://github.com/perusio/chive-nginx "Chive Nginx
-     config")
-     
-   + [Piwik](https://github.com/perusio/piwik-nginx "Piwik Nginx
-     config")
-
-   + [Redmine](https://github.com/perusio/redmine-nginx "Redmine Nginx
-     configuration")
-
-   + [SquirrelMail](https://github.com/perusio/squirrelmail-nginx
-     "SquirrelMail Nginx configuration")
-  
+ 
 ## Securing your PHP configuration
 
    I have created a small shell script that parses your `php.ini` and
